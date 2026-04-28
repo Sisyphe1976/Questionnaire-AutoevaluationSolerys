@@ -1,1 +1,254 @@
-cat ~/Downloads/index.html | pbcopy
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Questionnaire d'auto-évaluation – UES Solerys</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f4f5f7;min-height:100vh;padding:2rem 1rem}
+.wrap{max-width:680px;margin:0 auto}
+.header{background:#1a5fa8;color:#fff;padding:1.25rem 1.5rem;border-radius:12px 12px 0 0;display:flex;align-items:center;gap:12px}
+.header h1{font-size:18px;font-weight:500;color:#fff}
+.logo{width:44px;height:44px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#1a5fa8;flex-shrink:0}
+.subtitle{font-size:13px;opacity:.85;margin-top:4px}
+.progress-bar{height:4px;background:rgba(26,95,168,.2)}
+.progress-fill{height:4px;background:#2d7dd2;transition:width .4s ease}
+.body{background:#fff;border:1px solid #e0e0e0;border-top:none;border-radius:0 0 12px 12px;padding:1.5rem}
+.page{display:none}.page.active{display:block}
+.section-title{font-size:16px;font-weight:500;color:#111;margin-bottom:1rem;padding-bottom:8px;border-bottom:1px solid #eee}
+.field{margin-bottom:1.25rem}
+label.field-label{font-size:14px;color:#555;display:block;margin-bottom:6px}
+input[type=text]{width:100%;padding:8px 12px;font-size:14px;border:1px solid #ddd;border-radius:8px;background:#f9f9f9;color:#111}
+input[type=text]:focus{outline:none;border-color:#1a5fa8}
+.radio-q{margin-bottom:1rem;padding:12px;background:#f7f8fa;border-radius:8px}
+.radio-q .qtext{font-size:13px;color:#222;margin-bottom:8px;line-height:1.4}
+.radio-opts{display:flex;gap:6px;flex-wrap:wrap}
+.radio-opts label{font-size:12px;padding:5px 10px;border:1px solid #ddd;border-radius:20px;cursor:pointer;color:#555;transition:all .15s}
+.radio-opts input[type=radio]{display:none}
+.radio-opts input[type=radio]:checked+label{background:#1a5fa8;color:#fff;border-color:#1a5fa8}
+.check-group{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.check-item{display:flex;align-items:flex-start;gap:8px;padding:8px;background:#f7f8fa;border-radius:8px;cursor:pointer}
+.check-item input{margin-top:2px;flex-shrink:0}
+.check-item span{font-size:13px;color:#222;line-height:1.4}
+.oui-non-q{margin-bottom:8px;display:flex;align-items:center;gap:12px;padding:8px 10px;background:#f7f8fa;border-radius:8px}
+.oui-non-q .qtxt{font-size:13px;flex:1;color:#222;line-height:1.35}
+.oui-non-opts{display:flex;gap:6px;flex-shrink:0}
+.oui-non-opts label{font-size:12px;padding:4px 10px;border:1px solid #ddd;border-radius:20px;cursor:pointer;color:#555}
+.oui-non-opts input[type=radio]{display:none}
+.oui-non-opts input[type=radio]:checked+label{background:#1a5fa8;color:#fff;border-color:#1a5fa8}
+.check-solo{display:flex;align-items:flex-start;gap:8px;padding:8px;cursor:pointer;margin-bottom:4px}
+.check-solo input{margin-top:2px}
+.check-solo span{font-size:13px;color:#222}
+textarea{width:100%;padding:8px 12px;font-size:13px;border:1px solid #ddd;border-radius:8px;background:#f9f9f9;color:#111;resize:vertical;min-height:60px}
+textarea:focus{outline:none;border-color:#1a5fa8}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem;padding-top:1rem;border-top:1px solid #eee}
+.page-ind{font-size:13px;color:#888}
+.btn{padding:8px 20px;font-size:14px;border-radius:8px;cursor:pointer;font-family:inherit;border:1px solid #ccc;background:#fff;color:#222}
+.btn:hover{background:#f4f5f7}
+.btn-primary{background:#1a5fa8;color:#fff;border-color:#1a5fa8}
+.btn-primary:hover{background:#154d8a}
+.success{text-align:center;padding:2rem}
+.success h2{font-size:18px;font-weight:500;margin-bottom:8px;color:#111}
+.success p{font-size:14px;color:#666}
+.check-icon{width:52px;height:52px;background:#e6f4ec;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:26px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="header">
+  <div class="logo">UES</div>
+  <div>
+    <h1>Questionnaire d'auto-évaluation</h1>
+    <div class="subtitle">Faites le point sur votre recherche d'emploi avant votre premier entretien</div>
+  </div>
+</div>
+<div class="progress-bar"><div class="progress-fill" id="prog" style="width:50%"></div></div>
+<div class="body">
+
+<!-- PAGE 1 -->
+<div class="page active" id="p1">
+  <div class="section-title">Votre situation</div>
+  <div class="field">
+    <label class="field-label">Emploi recherché</label>
+    <input type="text" id="emploi" placeholder="Ex : agent de service, aide à domicile...">
+  </div>
+  <div class="field">
+    <label class="field-label">Mobilité</label>
+    <input type="text" id="mobilite" placeholder="Ex : Paris et petite couronne, voiture...">
+  </div>
+  <div class="field">
+    <label class="field-label">Si j'alterne entre des périodes d'activités et de chômage, les principales raisons :</label>
+    <textarea id="raisons_alternance" placeholder="Rupture de contrat, fin de contrat, statut d'intermittent..."></textarea>
+    <label class="check-solo" style="margin-top:6px"><input type="checkbox" id="ne_concerne_pas"><span>Cette question ne me concerne pas</span></label>
+  </div>
+  <div class="field">
+    <label class="field-label">Je suis à l'aise avec l'utilisation de ces outils numériques :</label>
+    <div class="check-group">
+      <label class="check-item"><input type="checkbox" name="num" value="ordinateur"><span>L'ordinateur</span></label>
+      <label class="check-item"><input type="checkbox" name="num" value="internet"><span>Internet</span></label>
+      <label class="check-item"><input type="checkbox" name="num" value="mails"><span>Les mails</span></label>
+      <label class="check-item"><input type="checkbox" name="num" value="reseaux"><span>Les réseaux sociaux</span></label>
+      <label class="check-item"><input type="checkbox" name="num" value="visio"><span>Les visioconférences</span></label>
+    </div>
+  </div>
+  <div class="field">
+    <label class="field-label">Je rencontre des obstacles à mon retour à l'emploi :</label>
+    <div class="check-group">
+      <label class="check-item"><input type="checkbox" name="obs" value="garde"><span>Problème de garde d'enfants</span></label>
+      <label class="check-item"><input type="checkbox" name="obs" value="sante"><span>Souci de santé</span></label>
+      <label class="check-item"><input type="checkbox" name="obs" value="informatique"><span>Difficulté avec l'outil informatique ou l'accès à Internet</span></label>
+      <label class="check-item"><input type="checkbox" name="obs" value="mobilite"><span>Problème de mobilité</span></label>
+      <label class="check-item"><input type="checkbox" name="obs" value="methode"><span>Ma méthode de recherche me semble peu efficace</span></label>
+      <label class="check-item"><input type="checkbox" name="obs" value="cv_lm"><span>Mon CV et ma lettre de motivation ne me semblent pas adaptés</span></label>
+      <label class="check-item"><input type="checkbox" name="obs" value="aucun"><span>Je ne rencontre pas d'obstacles</span></label>
+    </div>
+  </div>
+
+  <div class="section-title" style="margin-top:1.5rem">État des lieux de ma recherche d'emploi</div>
+
+  <div class="radio-q"><div class="qtext">Je consulte les opportunités d'emploi via des sites emploi (France Travail, Indeed, hellowork, etc.)</div><div class="radio-opts"><input type="radio" name="q1" id="q1a" value="Jamais"><label for="q1a">Jamais</label><input type="radio" name="q1" id="q1b" value="Rarement"><label for="q1b">Rarement</label><input type="radio" name="q1" id="q1c" value="Parfois"><label for="q1c">Parfois</label><input type="radio" name="q1" id="q1d" value="Souvent/toujours"><label for="q1d">Souvent, voire toujours</label></div></div>
+  <div class="radio-q"><div class="qtext">Je me sens en confiance quant à la reprise d'un emploi, dans les 3 mois.</div><div class="radio-opts"><input type="radio" name="q2" id="q2a" value="Pas du tout d'accord"><label for="q2a">Pas du tout d'accord</label><input type="radio" name="q2" id="q2b" value="Plutôt pas d'accord"><label for="q2b">Plutôt pas d'accord</label><input type="radio" name="q2" id="q2c" value="Plutôt d'accord"><label for="q2c">Plutôt d'accord</label><input type="radio" name="q2" id="q2d" value="Totalement d'accord"><label for="q2d">Totalement d'accord</label></div></div>
+  <div class="radio-q"><div class="qtext">J'adapte mon CV à ma candidature.</div><div class="radio-opts"><input type="radio" name="q3" id="q3a" value="Jamais"><label for="q3a">Jamais</label><input type="radio" name="q3" id="q3b" value="Rarement"><label for="q3b">Rarement</label><input type="radio" name="q3" id="q3c" value="Parfois"><label for="q3c">Parfois</label><input type="radio" name="q3" id="q3d" value="Souvent/toujours"><label for="q3d">Souvent, voire toujours</label></div></div>
+  <div class="radio-q"><div class="qtext">Je mobilise mon réseau professionnel.</div><div class="radio-opts"><input type="radio" name="q4" id="q4a" value="Jamais"><label for="q4a">Jamais</label><input type="radio" name="q4" id="q4b" value="Rarement"><label for="q4b">Rarement</label><input type="radio" name="q4" id="q4c" value="Parfois"><label for="q4c">Parfois</label><input type="radio" name="q4" id="q4d" value="Souvent/toujours"><label for="q4d">Souvent, voire toujours</label></div></div>
+  <div class="radio-q"><div class="qtext">J'effectue des enquêtes et/ou je vis des immersions en entreprises (Période de Mise en Situation en Milieu Professionnel).</div><div class="radio-opts"><input type="radio" name="q5" id="q5a" value="Jamais"><label for="q5a">Jamais</label><input type="radio" name="q5" id="q5b" value="Rarement"><label for="q5b">Rarement</label><input type="radio" name="q5" id="q5c" value="Parfois"><label for="q5c">Parfois</label><input type="radio" name="q5" id="q5d" value="Souvent/toujours"><label for="q5d">Souvent, voire toujours</label></div></div>
+  <div class="radio-q"><div class="qtext">Mon espace personnel France Travail est visible des recruteurs et je le mets à jour.</div><div class="radio-opts"><input type="radio" name="q6" id="q6a" value="Jamais"><label for="q6a">Jamais</label><input type="radio" name="q6" id="q6b" value="Rarement"><label for="q6b">Rarement</label><input type="radio" name="q6" id="q6c" value="Parfois"><label for="q6c">Parfois</label><input type="radio" name="q6" id="q6d" value="Souvent/toujours"><label for="q6d">Souvent, voire toujours</label></div></div>
+  <div class="radio-q"><div class="qtext">Je participe aux événements-emploi de mon territoire (Forum, Ateliers France Travail, etc.)</div><div class="radio-opts"><input type="radio" name="q7" id="q7a" value="Jamais"><label for="q7a">Jamais</label><input type="radio" name="q7" id="q7b" value="Rarement"><label for="q7b">Rarement</label><input type="radio" name="q7" id="q7c" value="Parfois"><label for="q7c">Parfois</label><input type="radio" name="q7" id="q7d" value="Souvent/toujours"><label for="q7d">Souvent, voire toujours</label></div></div>
+  <div class="radio-q"><div class="qtext">Je vérifie que mes compétences sont à jour et qu'elles répondent aux attentes du marché du travail.</div><div class="radio-opts"><input type="radio" name="q8" id="q8a" value="Jamais"><label for="q8a">Jamais</label><input type="radio" name="q8" id="q8b" value="Rarement"><label for="q8b">Rarement</label><input type="radio" name="q8" id="q8c" value="Parfois"><label for="q8c">Parfois</label><input type="radio" name="q8" id="q8d" value="Souvent/toujours"><label for="q8d">Souvent, voire toujours</label></div></div>
+  <div class="radio-q"><div class="qtext">Je sais présenter mes points forts lors d'un entretien d'embauche.</div><div class="radio-opts"><input type="radio" name="q9" id="q9a" value="Jamais"><label for="q9a">Jamais</label><input type="radio" name="q9" id="q9b" value="Rarement"><label for="q9b">Rarement</label><input type="radio" name="q9" id="q9c" value="Parfois"><label for="q9c">Parfois</label><input type="radio" name="q9" id="q9d" value="Souvent/toujours"><label for="q9d">Souvent, voire toujours</label></div></div>
+  <div class="radio-q"><div class="qtext">J'identifie mes axes d'amélioration, suite aux entretiens passés.</div><div class="radio-opts"><input type="radio" name="q10" id="q10a" value="Jamais"><label for="q10a">Jamais</label><input type="radio" name="q10" id="q10b" value="Rarement"><label for="q10b">Rarement</label><input type="radio" name="q10" id="q10c" value="Parfois"><label for="q10c">Parfois</label><input type="radio" name="q10" id="q10d" value="Souvent/toujours"><label for="q10d">Souvent, voire toujours</label></div></div>
+
+  <div class="nav">
+    <span class="page-ind">Page 1 / 2</span>
+    <button class="btn btn-primary" onclick="goTo(2)">Suivant →</button>
+  </div>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page" id="p2">
+  <div class="section-title">Mes démarches sur le mois dernier</div>
+  <p style="font-size:13px;color:#888;margin-bottom:12px">Indiquez oui/non, et précisez le nombre si pertinent.</p>
+
+  <div class="oui-non-q"><div class="qtxt">J'ai répondu à une ou plusieurs offres d'emploi.</div><div class="oui-non-opts"><input type="radio" name="d1" id="d1o" value="Oui"><label for="d1o">Oui</label><input type="radio" name="d1" id="d1n" value="Non"><label for="d1n">Non</label></div></div>
+  <div style="padding:0 10px 10px;display:flex;align-items:center;gap:8px"><label style="font-size:12px;color:#888;white-space:nowrap">Nb de candidatures :</label><input type="text" id="d1p" placeholder="ex : 5" style="width:80px;padding:4px 8px;font-size:13px;border:1px solid #ddd;border-radius:6px;background:#f9f9f9"></div>
+
+  <div class="oui-non-q"><div class="qtxt">J'ai envoyé une ou plusieurs candidatures spontanées.</div><div class="oui-non-opts"><input type="radio" name="d2" id="d2o" value="Oui"><label for="d2o">Oui</label><input type="radio" name="d2" id="d2n" value="Non"><label for="d2n">Non</label></div></div>
+  <div class="oui-non-q"><div class="qtxt">J'ai effectué une ou plusieurs relances de candidature.</div><div class="oui-non-opts"><input type="radio" name="d3" id="d3o" value="Oui"><label for="d3o">Oui</label><input type="radio" name="d3" id="d3n" value="Non"><label for="d3n">Non</label></div></div>
+  <div class="oui-non-q"><div class="qtxt">J'ai utilisé un tableau de suivi de mes candidatures.</div><div class="oui-non-opts"><input type="radio" name="d4" id="d4o" value="Oui"><label for="d4o">Oui</label><input type="radio" name="d4" id="d4n" value="Non"><label for="d4n">Non</label></div></div>
+  <div class="oui-non-q"><div class="qtxt">J'ai rendu visible mon CV sur Internet.</div><div class="oui-non-opts"><input type="radio" name="d5" id="d5o" value="Oui"><label for="d5o">Oui</label><input type="radio" name="d5" id="d5n" value="Non"><label for="d5n">Non</label></div></div>
+  <div class="oui-non-q"><div class="qtxt">Je suis inscrit dans une ou plusieurs agences de travail temporaire.</div><div class="oui-non-opts"><input type="radio" name="d6" id="d6o" value="Oui"><label for="d6o">Oui</label><input type="radio" name="d6" id="d6n" value="Non"><label for="d6n">Non</label></div></div>
+  <div class="oui-non-q"><div class="qtxt">J'ai participé à des événements-emploi.</div><div class="oui-non-opts"><input type="radio" name="d7" id="d7o" value="Oui"><label for="d7o">Oui</label><input type="radio" name="d7" id="d7n" value="Non"><label for="d7n">Non</label></div></div>
+  <div class="oui-non-q"><div class="qtxt">J'ai préparé mon argumentaire d'entretien.</div><div class="oui-non-opts"><input type="radio" name="d8" id="d8o" value="Oui"><label for="d8o">Oui</label><input type="radio" name="d8" id="d8n" value="Non"><label for="d2n">Non</label></div></div>
+  <div class="oui-non-q"><div class="qtxt">J'ai obtenu un entretien / des périodes d'activité.</div><div class="oui-non-opts"><input type="radio" name="d9" id="d9o" value="Oui"><label for="d9o">Oui</label><input type="radio" name="d9" id="d9n" value="Non"><label for="d9n">Non</label></div></div>
+  <div class="oui-non-q"><div class="qtxt">Je dispose d'une liste d'entreprises en lien avec ma recherche.</div><div class="oui-non-opts"><input type="radio" name="d10" id="d10o" value="Oui"><label for="d10o">Oui</label><input type="radio" name="d10" id="d10n" value="Non"><label for="d10n">Non</label></div></div>
+  <div class="oui-non-q"><div class="qtxt">J'ai complété mon profil de compétences sur mon espace France Travail.</div><div class="oui-non-opts"><input type="radio" name="d11" id="d11o" value="Oui"><label for="d11o">Oui</label><input type="radio" name="d11" id="d11n" value="Non"><label for="d11n">Non</label></div></div>
+
+  <div class="section-title" style="margin-top:1.5rem">Démarches supplémentaires souhaitées</div>
+  <div class="check-group" style="margin-bottom:1rem">
+    <label class="check-item"><input type="checkbox" name="dem" value="outils"><span>Rendre mes outils de recherche (CV, lettre) plus percutants</span></label>
+    <label class="check-item"><input type="checkbox" name="dem" value="entretien"><span>Bénéficier d'une préparation à l'entretien d'embauche</span></label>
+    <label class="check-item"><input type="checkbox" name="dem" value="ateliers"><span>Participer à des ateliers thématiques</span></label>
+    <label class="check-item"><input type="checkbox" name="dem" value="coach"><span>Avoir accès à une personne référente qui m'accompagne et me coache</span></label>
+    <label class="check-item"><input type="checkbox" name="dem" value="entreprises"><span>Bénéficier d'une mise en relation avec des entreprises</span></label>
+    <label class="check-item"><input type="checkbox" name="dem" value="partager"><span>Rencontrer d'autres demandeurs d'emploi pour partager nos expériences</span></label>
+    <label class="check-item"><input type="checkbox" name="dem" value="autre"><span>Autre</span></label>
+  </div>
+
+  <div class="section-title">Remarques à l'attention de mon conseiller</div>
+  <textarea id="remarques" rows="3" placeholder="Tout ce que vous souhaitez porter à l'attention de votre conseiller..."></textarea>
+
+  <div class="field" style="margin-top:1rem">
+    <label class="field-label">Votre prénom et nom</label>
+    <input type="text" id="nom_de" placeholder="Prénom Nom">
+  </div>
+
+  <div class="nav">
+    <button class="btn" onclick="goTo(1)">← Précédent</button>
+    <span class="page-ind">Page 2 / 2</span>
+    <button class="btn btn-primary" onclick="soumettre()">Envoyer au conseiller →</button>
+  </div>
+</div>
+
+<!-- PAGE CONFIRMATION -->
+<div class="page" id="p3">
+  <div class="success">
+    <div class="check-icon">✓</div>
+    <h2>Questionnaire envoyé</h2>
+    <p>Votre conseiller a reçu vos réponses et les consultera avant votre premier entretien.</p>
+    <p style="margin-top:8px;font-size:13px;color:#aaa">Vous pouvez fermer cette fenêtre.</p>
+  </div>
+</div>
+
+</div>
+</div>
+
+<script>
+function goTo(n){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('p'+n).classList.add('active');
+  document.getElementById('prog').style.width=n===1?'50%':'100%';
+  window.scrollTo(0,0);
+}
+function getChecked(name){return[...document.querySelectorAll('input[name="'+name+'"]:checked')].map(i=>i.value).join(', ');}
+function getRadio(name){const el=document.querySelector('input[name="'+name+'"]:checked');return el?el.value:'—';}
+function soumettre(){
+  const nom=document.getElementById('nom_de').value.trim();
+  const lignes=[
+    '=== QUESTIONNAIRE AUTO-ÉVALUATION UES ===',
+    'Bénéficiaire : '+(nom||'(non renseigné)'),
+    '',
+    '--- SITUATION ---',
+    'Emploi recherché : '+(document.getElementById('emploi').value||'—'),
+    'Mobilité : '+(document.getElementById('mobilite').value||'—'),
+    'Raisons alternance : '+(document.getElementById('ne_concerne_pas').checked?'Ne me concerne pas':document.getElementById('raisons_alternance').value||'—'),
+    'Outils numériques maîtrisés : '+(getChecked('num')||'Aucun coché'),
+    'Obstacles retour emploi : '+(getChecked('obs')||'Aucun coché'),
+    '',
+    '--- ÉTAT DES LIEUX ---',
+    'Consulte sites emploi : '+getRadio('q1'),
+    'Confiance reprise <3 mois : '+getRadio('q2'),
+    'Adapte CV : '+getRadio('q3'),
+    'Mobilise réseau : '+getRadio('q4'),
+    'Enquêtes/immersions : '+getRadio('q5'),
+    'Espace France Travail à jour : '+getRadio('q6'),
+    'Participe événements-emploi : '+getRadio('q7'),
+    'Compétences à jour vs marché : '+getRadio('q8'),
+    'Présente ses points forts : '+getRadio('q9'),
+    'Identifie ses axes d\'amélioration : '+getRadio('q10'),
+    '',
+    '--- DÉMARCHES DU MOIS ---',
+    'A répondu à des offres : '+getRadio('d1')+' (nb : '+document.getElementById('d1p').value+')',
+    'Candidatures spontanées : '+getRadio('d2'),
+    'Relances : '+getRadio('d3'),
+    'Tableau de suivi : '+getRadio('d4'),
+    'CV visible sur Internet : '+getRadio('d5'),
+    'Inscrit agences intérim : '+getRadio('d6'),
+    'Participé événements-emploi : '+getRadio('d7'),
+    'Préparé argumentaire : '+getRadio('d8'),
+    'Obtenu entretien/activité : '+getRadio('d9'),
+    'Liste entreprises : '+getRadio('d10'),
+    'Profil compétences FT complété : '+getRadio('d11'),
+    '',
+    '--- DÉMARCHES SOUHAITÉES ---',
+    getChecked('dem')||'Aucune cochée',
+    '',
+    '--- REMARQUES ---',
+    document.getElementById('remarques').value||'(aucune)',
+  ];
+  const sujet='Auto-évaluation UES – '+(nom||'Bénéficiaire');
+  const body=lignes.join('\n');
+  fetch('https://formspree.io/f/mlgayowg', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({ subject: sujet, message: body })
+  })
+  .then(r => {
+    if(r.ok){ goTo(3); }
+    else{ alert('Erreur lors de l\'envoi. Merci de réessayer.'); }
+  })
+  .catch(()=>{ alert('Erreur réseau. Vérifiez votre connexion et réessayez.'); });
+  goTo(3);
+}
+</script>
+</body>
+</html>
