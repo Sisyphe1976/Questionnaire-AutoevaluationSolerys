@@ -260,7 +260,7 @@ function soumettre(){
   fetch('https://api.web3forms.com/submit', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify({ subject: sujet, message: body })
+    body: JSON.stringify({ access_key: '47ab832d-38d5-4643-a07a-381ae65740a7', to: 'sebastien.petitot@me.com,u.delepee@solerys.fr', subject: sujet, message: body })
   })
   .then(r => {
     if(r.ok){ goTo(3); }
