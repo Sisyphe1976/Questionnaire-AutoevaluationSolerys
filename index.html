@@ -138,7 +138,7 @@ textarea:focus{outline:none;border-color:#1a5fa8}
   <div class="oui-non-q"><div class="qtxt">J'ai rendu visible mon CV sur Internet.</div><div class="oui-non-opts"><input type="radio" name="d5" id="d5o" value="Oui"><label for="d5o">Oui</label><input type="radio" name="d5" id="d5n" value="Non"><label for="d5n">Non</label></div></div>
   <div class="oui-non-q"><div class="qtxt">Je suis inscrit dans une ou plusieurs agences de travail temporaire.</div><div class="oui-non-opts"><input type="radio" name="d6" id="d6o" value="Oui"><label for="d6o">Oui</label><input type="radio" name="d6" id="d6n" value="Non"><label for="d6n">Non</label></div></div>
   <div class="oui-non-q"><div class="qtxt">J'ai participé à des événements-emploi.</div><div class="oui-non-opts"><input type="radio" name="d7" id="d7o" value="Oui"><label for="d7o">Oui</label><input type="radio" name="d7" id="d7n" value="Non"><label for="d7n">Non</label></div></div>
-  <div class="oui-non-q"><div class="qtxt">J'ai préparé mon argumentaire d'entretien.</div><div class="oui-non-opts"><input type="radio" name="d8" id="d8o" value="Oui"><label for="d8o">Oui</label><input type="radio" name="d8" id="d8n" value="Non"><label for="d2n">Non</label></div></div>
+  <div class="oui-non-q"><div class="qtxt">J'ai préparé mon argumentaire d'entretien.</div><div class="oui-non-opts"><input type="radio" name="d8" id="d8o" value="Oui"><label for="d8o">Oui</label><input type="radio" name="d8" id="d8n" value="Non"><label for="d8n">Non</label></div></div>
   <div class="oui-non-q"><div class="qtxt">J'ai obtenu un entretien / des périodes d'activité.</div><div class="oui-non-opts"><input type="radio" name="d9" id="d9o" value="Oui"><label for="d9o">Oui</label><input type="radio" name="d9" id="d9n" value="Non"><label for="d9n">Non</label></div></div>
   <div class="oui-non-q"><div class="qtxt">Je dispose d'une liste d'entreprises en lien avec ma recherche.</div><div class="oui-non-opts"><input type="radio" name="d10" id="d10o" value="Oui"><label for="d10o">Oui</label><input type="radio" name="d10" id="d10n" value="Non"><label for="d10n">Non</label></div></div>
   <div class="oui-non-q"><div class="qtxt">J'ai complété mon profil de compétences sur mon espace France Travail.</div><div class="oui-non-opts"><input type="radio" name="d11" id="d11o" value="Oui"><label for="d11o">Oui</label><input type="radio" name="d11" id="d11n" value="Non"><label for="d11n">Non</label></div></div>
@@ -193,47 +193,67 @@ function getChecked(name){return[...document.querySelectorAll('input[name="'+nam
 function getRadio(name){const el=document.querySelector('input[name="'+name+'"]:checked');return el?el.value:'—';}
 function soumettre(){
   const nom=document.getElementById('nom_de').value.trim();
+  const date=new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
+  const sep='────────────────────────────';
   const lignes=[
-    '=== QUESTIONNAIRE AUTO-ÉVALUATION UES ===',
-    'Bénéficiaire : '+(nom||'(non renseigné)'),
+    '╔══════════════════════════════╗',
+    '   AUTO-ÉVALUATION UES — SOLERYS',
+    '╚══════════════════════════════╝',
     '',
-    '--- SITUATION ---',
-    'Emploi recherché : '+(document.getElementById('emploi').value||'—'),
-    'Mobilité : '+(document.getElementById('mobilite').value||'—'),
-    'Raisons alternance : '+(document.getElementById('ne_concerne_pas').checked?'Ne me concerne pas':document.getElementById('raisons_alternance').value||'—'),
-    'Outils numériques maîtrisés : '+(getChecked('num')||'Aucun coché'),
-    'Obstacles retour emploi : '+(getChecked('obs')||'Aucun coché'),
+    '👤  Bénéficiaire : '+(nom||'(non renseigné)'),
+    '📅  Date : '+date,
     '',
-    '--- ÉTAT DES LIEUX ---',
-    'Consulte sites emploi : '+getRadio('q1'),
-    'Confiance reprise <3 mois : '+getRadio('q2'),
-    'Adapte CV : '+getRadio('q3'),
-    'Mobilise réseau : '+getRadio('q4'),
-    'Enquêtes/immersions : '+getRadio('q5'),
-    'Espace France Travail à jour : '+getRadio('q6'),
-    'Participe événements-emploi : '+getRadio('q7'),
-    'Compétences à jour vs marché : '+getRadio('q8'),
-    'Présente ses points forts : '+getRadio('q9'),
-    'Identifie ses axes d\'amélioration : '+getRadio('q10'),
+    sep,
+    '  SITUATION',
+    sep,
+    '  Emploi recherché    →  '+(document.getElementById('emploi').value||'—'),
+    '  Mobilité            →  '+(document.getElementById('mobilite').value||'—'),
+    '  Raisons alternance  →  '+(document.getElementById('ne_concerne_pas').checked?'Ne me concerne pas':document.getElementById('raisons_alternance').value||'—'),
+    '  Outils numériques   →  '+(getChecked('num')||'Aucun coché'),
+    '  Obstacles emploi    →  '+(getChecked('obs')||'Aucun coché'),
     '',
-    '--- DÉMARCHES DU MOIS ---',
-    'A répondu à des offres : '+getRadio('d1')+' (nb : '+document.getElementById('d1p').value+')',
-    'Candidatures spontanées : '+getRadio('d2'),
-    'Relances : '+getRadio('d3'),
-    'Tableau de suivi : '+getRadio('d4'),
-    'CV visible sur Internet : '+getRadio('d5'),
-    'Inscrit agences intérim : '+getRadio('d6'),
-    'Participé événements-emploi : '+getRadio('d7'),
-    'Préparé argumentaire : '+getRadio('d8'),
-    'Obtenu entretien/activité : '+getRadio('d9'),
-    'Liste entreprises : '+getRadio('d10'),
-    'Profil compétences FT complété : '+getRadio('d11'),
+    sep,
+    '  ÉTAT DES LIEUX (auto-évaluation)',
+    sep,
+    '  Consulte sites emploi            →  '+getRadio('q1'),
+    '  Confiance reprise < 3 mois       →  '+getRadio('q2'),
+    '  Adapte son CV                    →  '+getRadio('q3'),
+    '  Mobilise son réseau              →  '+getRadio('q4'),
+    '  Enquêtes / immersions            →  '+getRadio('q5'),
+    '  Espace France Travail à jour     →  '+getRadio('q6'),
+    '  Participe aux événements-emploi  →  '+getRadio('q7'),
+    '  Compétences à jour vs marché     →  '+getRadio('q8'),
+    '  Présente ses points forts        →  '+getRadio('q9'),
+    '  Identifie ses axes d\'amélio.     →  '+getRadio('q10'),
     '',
-    '--- DÉMARCHES SOUHAITÉES ---',
-    getChecked('dem')||'Aucune cochée',
+    sep,
+    '  DÉMARCHES DU MOIS',
+    sep,
+    '  Répondu à des offres       →  '+getRadio('d1')+' (nombre : '+(document.getElementById('d1p').value||'—')+')',
+    '  Candidatures spontanées    →  '+getRadio('d2'),
+    '  Relances effectuées        →  '+getRadio('d3'),
+    '  Tableau de suivi tenu      →  '+getRadio('d4'),
+    '  CV visible sur Internet    →  '+getRadio('d5'),
+    '  Inscrit en agences intérim →  '+getRadio('d6'),
+    '  Participé événements-emploi→  '+getRadio('d7'),
+    '  Préparé argumentaire       →  '+getRadio('d8'),
+    '  Obtenu entretien/activité  →  '+getRadio('d9'),
+    '  Liste entreprises ciblées  →  '+getRadio('d10'),
+    '  Profil France Travail complet→ '+getRadio('d11'),
     '',
-    '--- REMARQUES ---',
-    document.getElementById('remarques').value||'(aucune)',
+    sep,
+    '  DÉMARCHES SOUHAITÉES',
+    sep,
+    '  '+(getChecked('dem')||'Aucune cochée'),
+    '',
+    sep,
+    '  REMARQUES DU BÉNÉFICIAIRE',
+    sep,
+    '  '+(document.getElementById('remarques').value||'(aucune)'),
+    '',
+    sep,
+    '  Questionnaire transmis via Solerys Paris 12',
+    sep,
   ];
   const sujet='Auto-évaluation UES – '+(nom||'Bénéficiaire');
   const body=lignes.join('\n');
@@ -247,7 +267,6 @@ function soumettre(){
     else{ alert('Erreur lors de l\'envoi. Merci de réessayer.'); }
   })
   .catch(()=>{ alert('Erreur réseau. Vérifiez votre connexion et réessayez.'); });
-  goTo(3);
 }
 </script>
 </body>
