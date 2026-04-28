@@ -257,7 +257,7 @@ function soumettre(){
   ];
   const sujet='Auto-évaluation UES – '+(nom||'Bénéficiaire');
   const body=lignes.join('\n');
-  fetch('https://formspree.io/f/mlgayowg', {
+  fetch('https://api.web3forms.com/submit', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
     body: JSON.stringify({ subject: sujet, message: body })
